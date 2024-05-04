@@ -7,6 +7,7 @@
 #include "BaseCharacter.generated.h"
 
 UCLASS(Abstract)
+
 class AURA_API ABaseCharacter : public ACharacter
 {
 	GENERATED_BODY()
