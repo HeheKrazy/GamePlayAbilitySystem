@@ -2,11 +2,18 @@
 
 
 #include "Characters/BaseEnemy.h"
+#include "AbilitySystem/HKAbilitySystemComponent.h"
+#include "AbilitySystem/HKAttributeSet.h"
 #include "Aura/Aura.h"
 
 ABaseEnemy::ABaseEnemy()
 {
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+
+	AbilitySystemComponent = CreateDefaultSubobject<UHKAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent->SetIsReplicated(true);
+
+	AttributeSet = CreateDefaultSubobject<UHKAttributeSet>("AttributeSet");
 }
 
 void ABaseEnemy::HighlightActor()
