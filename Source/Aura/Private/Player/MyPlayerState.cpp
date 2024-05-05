@@ -9,6 +9,7 @@ AMyPlayerState::AMyPlayerState()
 {
 	AbilitySystemComponent = CreateDefaultSubobject<UHKAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed)
 
 	AttributeSet = CreateDefaultSubobject<UHKAttributeSet>("AttributeSet");
 

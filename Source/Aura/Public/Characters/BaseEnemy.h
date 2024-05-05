@@ -18,6 +18,10 @@ class AURA_API ABaseEnemy : public ABaseCharacter, public IOverlapInterface
 public:
 	ABaseEnemy();
 
+	/* OverlapInterface */
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
+	/* End OverlapInterface */
+
+	virtual void BeginPlay() override;
 };

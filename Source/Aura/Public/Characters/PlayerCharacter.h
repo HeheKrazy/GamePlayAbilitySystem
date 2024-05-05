@@ -15,4 +15,12 @@ class AURA_API APlayerCharacter : public ABaseCharacter
 	GENERATED_BODY()
 public:
 	APlayerCharacter();
+
+	/* Ability Sytem */
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+	/* End Ability Sytem */
+
+private:
+	void InitAbilityActorInfo();
 };
