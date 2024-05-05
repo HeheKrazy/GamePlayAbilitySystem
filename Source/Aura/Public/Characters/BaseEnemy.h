@@ -16,6 +16,8 @@ class AURA_API ABaseEnemy : public ABaseCharacter, public IOverlapInterface
 	GENERATED_BODY()
 	
 public:
+	ABaseEnemy();
+
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
 };

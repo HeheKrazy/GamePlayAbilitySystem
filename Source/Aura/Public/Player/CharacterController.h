@@ -9,6 +9,7 @@
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class IOverlapInterface;
 
 /**
  * 
@@ -21,6 +22,7 @@ class AURA_API ACharacterController : public APlayerController
 public:
 	ACharacterController();
 
+	virtual void PlayerTick(float DeltaTime) override;
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
@@ -33,4 +35,8 @@ private:
 	TObjectPtr<UInputAction> MoveAction;
 
 	void Move(const FInputActionValue& InputActionValue);
+	void CursorTrace();
+	IOverlapInterface* LastActor;
+	IOverlapInterface* ThisActor;
+
 };
