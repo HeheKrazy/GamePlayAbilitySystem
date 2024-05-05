@@ -3,6 +3,7 @@
 
 #include "Characters/PlayerCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
+
 #include "Player/MyPlayerState.h"
 #include "AbilitySystemComponent.h"
 
@@ -22,6 +23,8 @@ APlayerCharacter::APlayerCharacter()
 
 void APlayerCharacter::PossessedBy(AController* NewController)
 {
+	Super::PossessedBy(NewController);
+
 	// Init AbilityActorInfo for the Server
 	InitAbilityActorInfo();
 }
@@ -34,8 +37,7 @@ void APlayerCharacter::OnRep_PlayerState()
 
 void APlayerCharacter::InitAbilityActorInfo()
 {
-	// Init AbilityActorInfo for the Server
-	APlayerCharacter* MyPlayerState = GetPlayerState<APlayerCharacter>();
+	AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
 	check(MyPlayerState);
 	MyPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(MyPlayerState, this);
 	AbilitySystemComponent = MyPlayerState->GetAbilitySystemComponent();
