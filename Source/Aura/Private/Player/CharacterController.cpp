@@ -1,16 +1,16 @@
 // Copyright HeheKrazy
 
 
-#include "Player/MyPlayerController.h"
+#include "Player/CharacterController.h"
 #include  "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 
-AMyPlayerController::AMyPlayerController()
+ACharacterController::ACharacterController()
 {
 	bReplicates = true;
 }
 
-void AMyPlayerController::BeginPlay()
+void ACharacterController::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -29,18 +29,18 @@ void AMyPlayerController::BeginPlay()
 	SetInputMode(InputModeData);
 }
 
-void AMyPlayerController::SetupInputComponent()
+void ACharacterController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
-	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyPlayerController::Move);
+	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACharacterController::Move);
 }
 
-void AMyPlayerController::Move(const FInputActionValue& InputActionValue)
+void ACharacterController::Move(const FInputActionValue& InputActionValue)
 {
 	const FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();
-	 // which direction is forward
+	// which direction is forward
 	const FRotator Rotation = GetControlRotation();
 	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
 

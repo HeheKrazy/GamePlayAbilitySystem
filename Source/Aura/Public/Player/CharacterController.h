@@ -4,25 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "MyPlayerController.generated.h"
+#include "CharacterController.generated.h"
 
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+
 /**
  * 
  */
 UCLASS()
-class AURA_API AMyPlayerController : public APlayerController
+class AURA_API ACharacterController : public APlayerController
 {
 	GENERATED_BODY()
+
 public:
-	AMyPlayerController();
+	ACharacterController();
 
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
-	
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Input")
 	TObjectPtr<UInputMappingContext> PlayerContext;
