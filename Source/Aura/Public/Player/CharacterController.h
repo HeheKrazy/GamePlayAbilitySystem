@@ -36,7 +36,9 @@ private:
 
 	void Move(const FInputActionValue& InputActionValue);
 	void CursorTrace();
-	IOverlapInterface* LastActor;
-	IOverlapInterface* ThisActor;
+
+
+	TScriptInterface<IOverlapInterface> LastActor;
+	TScriptInterface<IOverlapInterface> ThisActor;
 
 };
