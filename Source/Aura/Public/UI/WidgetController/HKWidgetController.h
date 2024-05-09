@@ -39,6 +39,7 @@ class AURA_API UHKWidgetController : public UObject
 	GENERATED_BODY()
 public:
 	void SetWidgetControllerParams(const FWidgetControllerParams& WCParams);
+	virtual void BroadcastInitalValues();
 protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "WidgetController")

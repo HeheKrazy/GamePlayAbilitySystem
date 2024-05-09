@@ -38,7 +38,7 @@ private:
 	void CursorTrace();
 
 
-	TScriptInterface<IOverlapInterface> LastActor;
-	TScriptInterface<IOverlapInterface> ThisActor;
+	TObjectPtr<IOverlapInterface> LastActor;
+	TObjectPtr<IOverlapInterface> ThisActor;
 
 };
