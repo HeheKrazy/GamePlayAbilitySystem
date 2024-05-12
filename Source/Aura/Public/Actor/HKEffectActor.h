@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "HKEffectActor.generated.h"
 
-class USphereComponent;
+class UGameplayEffect;
 UCLASS()
 class AURA_API AHKEffectActor : public AActor
 {
@@ -16,6 +16,10 @@ public:
 	AHKEffectActor();
 protected:
 	virtual void BeginPlay() override;
+	void ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass);
+
+	UPROPERTY(EditAnywhere, Category = "AppliedEffects");
+	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
 
 private:
 };
