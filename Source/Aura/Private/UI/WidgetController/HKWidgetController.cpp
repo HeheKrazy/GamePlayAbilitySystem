@@ -11,6 +11,10 @@ void UHKWidgetController::SetWidgetControllerParams(const FWidgetControllerParam
 	AttributeSet = WCParams.AttributeSet;
 }
 
-void UHKWidgetController::BroadcastInitalValues()
+void UHKWidgetController::BroadcastInitialValues()
+{
+}
+
+void UHKWidgetController::BindCallbacksToDependencies()
 {
 }
