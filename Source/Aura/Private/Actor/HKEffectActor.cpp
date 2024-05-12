@@ -26,6 +26,7 @@ void AHKEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 
 	 UHKAttributeSet* MutableHKAttributeSet = const_cast<UHKAttributeSet*>(HKAttributeSet);
 	 MutableHKAttributeSet->SetHealth(HKAttributeSet->GetHealth() + 25.f);
+	 MutableHKAttributeSet->SetMana(HKAttributeSet->GetMana() - 25.f);
 	 Destroy();
 	}
 
