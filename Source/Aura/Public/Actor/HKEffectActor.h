@@ -16,9 +16,11 @@ public:
 	AHKEffectActor();
 protected:
 	virtual void BeginPlay() override;
-	void ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass);
 
-	UPROPERTY(EditAnywhere, Category = "AppliedEffects");
+	UFUNCTION(BlueprintCallable)
+	void ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AppliedEffects");
 	TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
 
 private:
