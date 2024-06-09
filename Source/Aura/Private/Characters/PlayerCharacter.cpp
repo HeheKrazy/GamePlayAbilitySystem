@@ -3,7 +3,7 @@
 
 #include "Characters/PlayerCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
-
+#include "AbilitySystem/HKAbilitySystemComponent.h"
 #include "Player/MyPlayerState.h"
 #include "AbilitySystemComponent.h"
 #include "UI/HUD/HKHUD.h"
@@ -41,6 +41,8 @@ void APlayerCharacter::InitAbilityActorInfo()
 	AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
 	check(MyPlayerState);
 	MyPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(MyPlayerState, this);
+
+	Cast<UHKAbilitySystemComponent>(MyPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	AbilitySystemComponent = MyPlayerState->GetAbilitySystemComponent();
 	AttributeSet = MyPlayerState->GetAttributeSet();
 

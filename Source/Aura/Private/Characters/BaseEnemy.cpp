@@ -20,8 +20,13 @@ ABaseEnemy::ABaseEnemy()
 void ABaseEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	InitAbilityActorInfo();
+}
 
+void ABaseEnemy::InitAbilityActorInfo()
+{
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	Cast<UHKAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 }
 
 void ABaseEnemy::HighlightActor()

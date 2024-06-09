@@ -22,5 +22,5 @@ public:
 	/* End Ability Sytem */
 
 private:
-	void InitAbilityActorInfo();
+	void InitAbilityActorInfo() override;
 };
