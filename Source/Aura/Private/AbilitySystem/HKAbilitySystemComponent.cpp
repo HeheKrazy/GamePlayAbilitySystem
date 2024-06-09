@@ -12,11 +12,6 @@ void UHKAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySy
 {
 	FGameplayTagContainer TagContainer;
 	EffectSpec.GetAllAssetTags(TagContainer);
-	for (const FGameplayTag& Tag : TagContainer)
-	{
-		//TODO: Boradcast the tag to the Widget Controller
+	EffectAssetTags.Broadcast(TagContainer);
 
-		const FString Msg = FString::Printf(TEXT("GE Tag: %s"), *Tag.ToString());
-		GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Blue, Msg);
-	}
 }
