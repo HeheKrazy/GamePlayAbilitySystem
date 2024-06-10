@@ -18,10 +18,19 @@ UHKAttributeSet::UHKAttributeSet()
 void UHKAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	/* Primary Attributes */
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, Strength, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, Intelligence, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, Resilience, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, Vigor, COND_None, REPNOTIFY_Always);
+
+	/* Vital Attributes */
 	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, Health, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, Mana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+
 }
 
 void UHKAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -108,3 +117,22 @@ void UHKAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) co
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, MaxMana, OldMaxMana);
 }
 
+void UHKAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, Strength, OldStrength);
+}
+
+void UHKAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, Intelligence, OldIntelligence);
+}
+
+void UHKAttributeSet::OnRep_Resilience(const FGameplayAttributeData& OldResilience) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, Resilience, OldResilience);
+}
+
+void UHKAttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, Vigor, OldVigor);
+}
