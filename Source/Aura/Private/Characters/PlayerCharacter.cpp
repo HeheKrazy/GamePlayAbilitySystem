@@ -53,4 +53,5 @@ void APlayerCharacter::InitAbilityActorInfo()
 			HKHUD->InitOverlay(HKPlayerController, MyPlayerState, AbilitySystemComponent, AttributeSet);
 		}
 	}
+	InitializePrimaryAttributes();
 }
