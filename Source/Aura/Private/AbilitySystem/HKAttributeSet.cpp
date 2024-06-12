@@ -31,6 +31,16 @@ void UHKAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, Mana, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
 
+	/* Secondary Attributes */
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, Armor, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, ArmorPenetration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, BlockChance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, CriticalHitChance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, CriticalHitDamage, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, CriticalHitResistance, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, HealthRegeneration, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UHKAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
+
 }
 
 void UHKAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -135,4 +145,44 @@ void UHKAttributeSet::OnRep_Resilience(const FGameplayAttributeData& OldResilien
 void UHKAttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, Vigor, OldVigor);
+}
+
+void UHKAttributeSet::OnRep_Armor(const FGameplayAttributeData& OldArmor) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, Armor, OldArmor);
+}
+
+void UHKAttributeSet::OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, ArmorPenetration, OldArmorPenetration);
+}
+
+void UHKAttributeSet::OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, BlockChance, OldBlockChance);
+}
+
+void UHKAttributeSet::OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, CriticalHitChance, OldCriticalHitChance);
+}
+
+void UHKAttributeSet::OnRep_CriticalHitDamage(const FGameplayAttributeData& OldCriticalHitDamage) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, CriticalHitDamage, OldCriticalHitDamage);
+}
+
+void UHKAttributeSet::OnRep_CriticalHitResistance(const FGameplayAttributeData& OldCriticalHitResistance) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, CriticalHitResistance, OldCriticalHitResistance);
+}
+
+void UHKAttributeSet::OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, HealthRegeneration, OldHealthRegeneration);
+}
+
+void UHKAttributeSet::OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UHKAttributeSet, ManaRegeneration, OldManaRegeneration);
 }
