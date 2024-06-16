@@ -38,7 +38,7 @@ private:
 	void CursorTrace();
 
 
-	TObjectPtr<IOverlapInterface> LastActor;
-	TObjectPtr<IOverlapInterface> ThisActor;
+	IOverlapInterface* LastActor;
+	IOverlapInterface* ThisActor;
 
 };
