@@ -9,8 +9,6 @@
 
 UHKAttributeSet::UHKAttributeSet()
 {
-	InitHealth(10.f);
-	InitMana(25.f);
 }
 
 void UHKAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

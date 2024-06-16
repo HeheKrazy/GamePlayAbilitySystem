@@ -41,4 +41,5 @@ void ABaseCharacter::InitializeDefualtAttributes() const
 {
 	ApplyEffectToSelf(DefualtPrimaryAttributes, 1.f);
 	ApplyEffectToSelf(DefualtSecondaryAttributes, 1.f);
+	ApplyEffectToSelf(DefualtVitalAttributes, 1.f);
 }
