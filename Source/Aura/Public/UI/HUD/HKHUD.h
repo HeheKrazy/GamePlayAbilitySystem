@@ -12,6 +12,7 @@ class UAttributeSet;
 struct FWidgetControllerParams;
 
 class UHKUserWidget;
+class UAttributeMenuWidgetController;
 /**
  * 
  */
@@ -20,16 +21,21 @@ class AURA_API AHKHUD : public AHUD
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY()
-	TObjectPtr<UHKUserWidget> OverlayWidget;
+
 
 	UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WCParams);
+
+	UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const FWidgetControllerParams& WCParams);
 
 	void InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS);
 
 protected:
 
-private:
+private:	
+	
+	UPROPERTY()
+	TObjectPtr<UHKUserWidget> OverlayWidget;
+	
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UHKUserWidget> OverlayWidgetClass;
 
@@ -38,5 +44,10 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UOverlayWidgetController> OverlayWidgetControllerClass;
-	
+
+	UPROPERTY()
+	TObjectPtr<UAttributeMenuWidgetController> AttributeMenuWidgetController;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UAttributeMenuWidgetController> AttributeMenuWidgetControllerClass;
 };
