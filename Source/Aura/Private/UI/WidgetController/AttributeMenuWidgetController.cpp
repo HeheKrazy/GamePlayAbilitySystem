@@ -3,10 +3,25 @@
 
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "AbilitySystem/HKAttributeSet.h"
-#include "HKGameplayTags.h"
+#include "AbilitySystem/Data/AttributeInfo.h"
+
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
+	UHKAttributeSet* AS = CastChecked<UHKAttributeSet>(AttributeSet);
+
+	check(AttributeInfo)
+
+	for (auto& Pair : AS->TagsToAttributes)
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
+			[this, Pair](const FOnAttributeChangeData& Data)
+			{
+				BroadcastAttributeInfo(Pair.Key, Pair.Value());
+			}
+		);
+	}
+	
 }
 
 void UAttributeMenuWidgetController::BroadcastInitialValues()
@@ -15,7 +30,15 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 
 	check(AttributeInfo);
 
-	FHKAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(FHKGameplayTags::Get().Attributes_Primary_Strength);
-	Info.AttributeValue = AS->GetStrength();
+	for (auto& Pair : AS->TagsToAttributes)
+	{
+		BroadcastAttributeInfo(Pair.Key, Pair.Value());
+	}
+}
+
+void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const
+{
+	FHKAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(AttributeTag);
+	Info.AttributeValue = Attribute.GetNumericValue(AttributeSet);
 	AttributeInfoDelegate.Broadcast(Info);
 }
