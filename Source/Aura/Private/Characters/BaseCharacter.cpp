@@ -3,6 +3,7 @@
 
 #include "Characters/BaseCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/HKAbilitySystemComponent.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -42,4 +43,14 @@ void ABaseCharacter::InitializeDefualtAttributes() const
 	ApplyEffectToSelf(DefualtPrimaryAttributes, 1.f);
 	ApplyEffectToSelf(DefualtSecondaryAttributes, 1.f);
 	ApplyEffectToSelf(DefualtVitalAttributes, 1.f);
+}
+
+void ABaseCharacter::AddCharacterAbilities()
+{
+	UHKAbilitySystemComponent* HKASC = CastChecked<UHKAbilitySystemComponent>(AbilitySystemComponent);
+	if (!HasAuthority()) return;
+
+	HKASC->AddCharacterAbilities(StartupAbilities);
+
+
 }
