@@ -3,7 +3,7 @@
 
 #include "Player/CharacterController.h"
 #include  "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h"
+#include "Input/HKInputComponent.h"
 #include "Interaction/OverlapInterface.h"
 
 ACharacterController::ACharacterController()
@@ -43,8 +43,10 @@ void ACharacterController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
-	EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACharacterController::Move);
+	UHKInputComponent* HKInputComponent = CastChecked<UHKInputComponent>(InputComponent);
+	HKInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACharacterController::Move);
+
+	HKInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
 void ACharacterController::Move(const FInputActionValue& InputActionValue)
@@ -122,4 +124,21 @@ void ACharacterController::CursorTrace()
 			}
 		}
 	}
+}
+
+void ACharacterController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+}
+
+void ACharacterController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Blue, *InputTag.ToString());
+
+}
+
+void ACharacterController::AbilityInputTagHeld(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Green, *InputTag.ToString());
+
 }
