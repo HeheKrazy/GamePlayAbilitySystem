@@ -6,6 +6,8 @@
 #include "AbilitySystem/Abilities/HKGameplayAbility.h"
 #include "HKProjectileSpell.generated.h"
 
+
+class AHKProjectile;
 /**
  * 
  */
@@ -17,4 +19,6 @@ class AURA_API UHKProjectileSpell : public UHKGameplayAbility
 protected:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<AHKProjectile> ProjectileClass;
 };
