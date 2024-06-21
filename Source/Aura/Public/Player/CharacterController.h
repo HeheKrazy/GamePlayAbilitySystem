@@ -12,6 +12,7 @@ class UInputAction;
 struct FInputActionValue;
 class IOverlapInterface;
 class UHKInputConfig;
+class UHKAbilitySystemComponent;
 
 /**
  * 
@@ -51,5 +52,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	TObjectPtr<UHKInputConfig> InputConfig;
 
+	UPROPERTY()
+	TObjectPtr<UHKAbilitySystemComponent> HKAbilitySystemComponenet;
+
+	UHKAbilitySystemComponent* GetASC();
 
 };

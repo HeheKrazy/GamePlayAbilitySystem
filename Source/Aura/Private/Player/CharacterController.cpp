@@ -5,6 +5,8 @@
 #include  "EnhancedInputSubsystems.h"
 #include "Input/HKInputComponent.h"
 #include "Interaction/OverlapInterface.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/HKAbilitySystemComponent.h"
 
 ACharacterController::ACharacterController()
 {
@@ -128,17 +130,25 @@ void ACharacterController::CursorTrace()
 
 void ACharacterController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-	GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
 }
 
 void ACharacterController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-	GEngine->AddOnScreenDebugMessage(2, 3.f, FColor::Blue, *InputTag.ToString());
-
+	if (GetASC() == nullptr) return;
+	GetASC()->AbilityInputTagReleased(InputTag);
 }
 
 void ACharacterController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-	GEngine->AddOnScreenDebugMessage(3, 3.f, FColor::Green, *InputTag.ToString());
+	if (GetASC() == nullptr) return;
+	GetASC()->AbilityInputTagHeld(InputTag);
+}
 
+UHKAbilitySystemComponent* ACharacterController::GetASC()
+{
+	if (HKAbilitySystemComponenet == nullptr)
+	{
+		HKAbilitySystemComponenet = Cast<UHKAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
+	}
+	return HKAbilitySystemComponenet;
 }
