@@ -44,6 +44,7 @@ private:
 
 	IOverlapInterface* LastActor;
 	IOverlapInterface* ThisActor;
+	FHitResult CursorHit;
 
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
