@@ -9,7 +9,12 @@ void UHKProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
-	const bool bIsServer = HasAuthority(&ActivationInfo);
+	
+}
+
+void UHKProjectileSpell::SpawnProjectile()
+{
+	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
 
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
@@ -20,7 +25,6 @@ void UHKProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
 		// TODO Set projectile rotation
-
 		AHKProjectile* Projectile = GetWorld()->SpawnActorDeferred<AHKProjectile>(
 			ProjectileClass,
 			SpawnTransform,
@@ -28,7 +32,7 @@ void UHKProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 			Cast<APawn>(GetOwningActorFromActorInfo()),
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-		// TODO: GIve the projectile a gameplay effect spec for causing damage
+		// TODO: Give the projectile a gameplay effect spec for causing damage
 
 		Projectile->FinishSpawning(SpawnTransform);
 	}
