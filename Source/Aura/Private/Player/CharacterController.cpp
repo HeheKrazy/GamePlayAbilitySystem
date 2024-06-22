@@ -71,7 +71,8 @@ void ACharacterController::SetupInputComponent()
 
 	UHKInputComponent* HKInputComponent = CastChecked<UHKInputComponent>(InputComponent);
 	HKInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACharacterController::Move);
-
+	HKInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &ACharacterController::ShiftPressed);
+	HKInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &ACharacterController::ShiftReleased);
 	HKInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
@@ -123,11 +124,8 @@ void ACharacterController::AbilityInputTagReleased(FGameplayTag InputTag)
 		if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 		return;
 	}
-	if (bTargeting)
-	{
-		if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
-	}
-	else
+	if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
+	if (!bTargeting && !bShiftKeyDown)
 	{
 		const APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
@@ -143,9 +141,9 @@ void ACharacterController::AbilityInputTagReleased(FGameplayTag InputTag)
 				bAutoRunning = true;
 			}
 		}
+	}
 		FollowTime = 0.f;
 		bTargeting = false;
-	}
 }
 
 void ACharacterController::AbilityInputTagHeld(FGameplayTag InputTag)
@@ -155,7 +153,7 @@ void ACharacterController::AbilityInputTagHeld(FGameplayTag InputTag)
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
 		return;
 	}
-	if (bTargeting)
+	if (bTargeting || bShiftKeyDown)
 	{
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
 	}
