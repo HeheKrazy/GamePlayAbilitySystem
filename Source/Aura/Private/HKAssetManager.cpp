@@ -3,6 +3,7 @@
 
 #include "HKAssetManager.h"
 #include "HKGameplayTags.h"
+#include "AbilitySystemGlobals.h"
 
 UHKAssetManager& UHKAssetManager::Get()
 {
@@ -17,4 +18,6 @@ void UHKAssetManager::StartInitialLoading()
 	Super::StartInitialLoading();
 	
 	FHKGameplayTags::InitializeNativeGameplayTags();
+	// This is required to use Target Data
+	UAbilitySystemGlobals::Get().InitGlobalData();
 }
