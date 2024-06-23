@@ -5,6 +5,8 @@
 #include "AbilitySystem/HKAbilitySystemComponent.h"
 #include "AbilitySystem/HKAttributeSet.h"
 #include "Aura/Aura.h"
+#include "Components/WidgetComponent.h"
+#include "UI/Widget/HKUserWidget.h"
 
 ABaseEnemy::ABaseEnemy()
 {
@@ -15,12 +17,41 @@ ABaseEnemy::ABaseEnemy()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
 	AttributeSet = CreateDefaultSubobject<UHKAttributeSet>("AttributeSet");
+
+	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
+	HealthBar->SetupAttachment(GetRootComponent());
 }
 
 void ABaseEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	InitAbilityActorInfo();
+
+	if (UHKUserWidget* HKUserWidget = Cast<UHKUserWidget>(HealthBar->GetUserWidgetObject()))
+	{
+		HKUserWidget->SetWidgetController(this);
+	}
+	
+
+	if (const UHKAttributeSet* HKAS = Cast<UHKAttributeSet>(AttributeSet))
+	{
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(HKAS->GetHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnHealthChanged.Broadcast(Data.NewValue);
+			}
+		);
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(HKAS->GetMaxHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				OnMaxHealthChanged.Broadcast(Data.NewValue);
+			}
+		);
+
+		OnHealthChanged.Broadcast(HKAS->GetHealth());
+		OnMaxHealthChanged.Broadcast(HKAS->GetMaxHealth());
+	}
+	
 }
 
 void ABaseEnemy::InitAbilityActorInfo()
