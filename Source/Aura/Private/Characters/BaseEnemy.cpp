@@ -27,6 +27,8 @@ void ABaseEnemy::InitAbilityActorInfo()
 {
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	Cast<UHKAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+
+	InitializeDefualtAttributes();
 }
 
 void ABaseEnemy::HighlightActor()
