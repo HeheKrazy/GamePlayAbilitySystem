@@ -6,6 +6,7 @@
 #include "AbilitySystem/HKAttributeSet.h"
 #include "Aura/Aura.h"
 #include "Components/WidgetComponent.h"
+#include "AbilitySystem/HKAbilitySystemLibrary.h"
 #include "UI/Widget/HKUserWidget.h"
 
 ABaseEnemy::ABaseEnemy()
@@ -60,6 +61,11 @@ void ABaseEnemy::InitAbilityActorInfo()
 	Cast<UHKAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 
 	InitializeDefualtAttributes();
+}
+
+void ABaseEnemy::InitializeDefualtAttributes() const
+{
+	UHKAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
 
 void ABaseEnemy::HighlightActor()
