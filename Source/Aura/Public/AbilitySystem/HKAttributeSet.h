@@ -99,6 +99,12 @@ public:
 	ATTRIBUTE_ACCESSORS(UHKAttributeSet, Mana);
 	/* End Vital Attributes */
 
+	/* Start Meta Attributes */
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UHKAttributeSet, IncomingDamage);
+	/* End Meta Attributes */
+
 	/* Start Secondary Attributes */
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Secondary Attributes")
 	FGameplayAttributeData Armor;
