@@ -8,6 +8,8 @@
 #include "Components/WidgetComponent.h"
 #include "AbilitySystem/HKAbilitySystemLibrary.h"
 #include "UI/Widget/HKUserWidget.h"
+#include "HKGameplayTags.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 ABaseEnemy::ABaseEnemy()
 {
@@ -23,9 +25,12 @@ ABaseEnemy::ABaseEnemy()
 	HealthBar->SetupAttachment(GetRootComponent());
 }
 
+
+
 void ABaseEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
 
 	if (UHKUserWidget* HKUserWidget = Cast<UHKUserWidget>(HealthBar->GetUserWidgetObject()))
@@ -48,11 +53,22 @@ void ABaseEnemy::BeginPlay()
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			}
 		);
+		
+		AbilitySystemComponent->RegisterGameplayTagEvent(FHKGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+			this,
+			&ABaseEnemy::HitReactTagChanged
+
+		);
 
 		OnHealthChanged.Broadcast(HKAS->GetHealth());
 		OnMaxHealthChanged.Broadcast(HKAS->GetMaxHealth());
 	}
 	
+}
+void ABaseEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+	bHitReacting = bHitReacting = NewCount > 0;
+	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 }
 
 void ABaseEnemy::InitAbilityActorInfo()

@@ -69,3 +69,8 @@ void ABaseCharacter::AddCharacterAbilities()
 
 
 }
+
+UAnimMontage* ABaseCharacter::GetHitReactMontage_Implementation()
+{
+	return HitReactMontage;
+}
