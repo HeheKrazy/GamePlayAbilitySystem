@@ -32,6 +32,7 @@ void ABaseEnemy::BeginPlay()
 	Super::BeginPlay();
 	GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
 	InitAbilityActorInfo();
+	UHKAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
 
 	if (UHKUserWidget* HKUserWidget = Cast<UHKUserWidget>(HealthBar->GetUserWidgetObject()))
 	{
@@ -67,7 +68,7 @@ void ABaseEnemy::BeginPlay()
 }
 void ABaseEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
-	bHitReacting = bHitReacting = NewCount > 0;
+	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 }
 

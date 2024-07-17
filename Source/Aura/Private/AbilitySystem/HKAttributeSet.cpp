@@ -77,7 +77,7 @@ void UHKAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, fl
 
 }
 
-void UHKAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties Props) const
+void UHKAttributeSet::SetEffectProperties(const FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
 {
 	// Source = causer of the effect, Target = target of the effect (owner of this AS)
 	Props.EffectContextHandle = Data.EffectSpec.GetContext();
@@ -132,6 +132,13 @@ void UHKAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
 
 			const bool bFatal = NewHealth <= 0.f;
+
+			if (!bFatal)
+			{
+				FGameplayTagContainer TagContainer;
+				TagContainer.AddTag(FHKGameplayTags::Get().Effects_HitReact);
+				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+			}
 		}
 	}
 }
