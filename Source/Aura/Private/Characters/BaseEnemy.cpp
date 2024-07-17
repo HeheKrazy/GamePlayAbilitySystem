@@ -103,3 +103,9 @@ int32 ABaseEnemy::GetPlayerLevel()
 {
 	return Level;
 }
+
+void ABaseEnemy::Die()
+{
+	SetLifeSpan(LifeSpan);
+	Super::Die();
+}
