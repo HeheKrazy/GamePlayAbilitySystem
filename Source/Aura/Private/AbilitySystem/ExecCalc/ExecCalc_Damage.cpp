@@ -5,6 +5,9 @@
 #include "AbilitySystemComponent.h"
 #include "HKGameplayTags.h"
 #include "AbilitySystem/HKAttributeSet.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
+#include "AbilitySystem/HKAbilitySystemLibrary.h"
+#include "Interaction/CombatInterface.h"
 
 struct HKDamageStatics
 {	
@@ -40,6 +43,8 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	AActor* SourceAvatar = SourceASC ? SourceASC->GetAvatarActor() : nullptr;
 	AActor* TargetAvatar = TargetASC ? TargetASC->GetAvatarActor() : nullptr;
+	ICombatInterface* SourceCombatInterface = Cast<ICombatInterface>(SourceAvatar);
+	ICombatInterface* TargetCombatInterface = Cast<ICombatInterface>(TargetAvatar);
 
 	const FGameplayEffectSpec& Spec = ExecutionParams.GetOwningSpec();
 
@@ -71,10 +76,19 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorPenetrationDef, EvaluationParamaeters, SourceArmorPenetration);
 	SourceArmorPenetration = FMath::Max<float>(SourceArmorPenetration, 0.f);
 
+	// Get CharacterClassInfo
+	const UCharacterClassInfo* CharacterClassInfo = UHKAbilitySystemLibrary::GetCharacterClassInfo(SourceAvatar);
+	// Gets the Armor Penetration curve from the Curve table and Evaluates the curve at player level for the coefficent
+	const FRealCurve* ArmorPenetrationCurve = CharacterClassInfo->DamageCalculationCoefficents->FindCurve(FName("ArmorPenetration"), FString());
+	const float ArmorPenetrationCoefficient = ArmorPenetrationCurve->Eval(SourceCombatInterface->GetPlayerLevel());
+
 	// Armor Penetration ignores a percentage of the Targets Armor.
-	const float EffectiveArmor = TargetArmor *= (100 - SourceArmorPenetration * 0.25f) / 100.f;
+	const float EffectiveArmor = TargetArmor * (100 - SourceArmorPenetration * ArmorPenetrationCoefficient) / 100.f;
+
+	const FRealCurve* EffectiveArmorCurve = CharacterClassInfo->DamageCalculationCoefficents->FindCurve(FName("EffectiveArmor"), FString());
+	const float EffectiveArmorCoefficient = EffectiveArmorCurve->Eval(TargetCombatInterface->GetPlayerLevel());
 	// Armor ignores a percentage of Incoming Damage
-	Damage *= (100 - EffectiveArmor * 0.333f) / 100.f;
+	Damage *= (100 - EffectiveArmor * EffectiveArmorCoefficient) / 100.f;
 
 	const FGameplayModifierEvaluatedData EvaluatedData(UHKAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
