@@ -9,11 +9,13 @@
 struct HKDamageStatics
 {	
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(ArmorPenetration);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(BlockChance);
 	
 	HKDamageStatics()
 	{
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UHKAttributeSet, Armor, Target, false);
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UHKAttributeSet, ArmorPenetration, Source, false);
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UHKAttributeSet, BlockChance, Target, false);
 	}
 };
@@ -27,6 +29,7 @@ static const HKDamageStatics& DamageStatics()
 UExecCalc_Damage::UExecCalc_Damage()
 {
 	RelevantAttributesToCapture.Add(DamageStatics().ArmorDef);
+	RelevantAttributesToCapture.Add(DamageStatics().ArmorPenetrationDef);
 	RelevantAttributesToCapture.Add(DamageStatics().BlockChanceDef);
 }
 
@@ -51,15 +54,27 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 	float Damage = Spec.GetSetByCallerMagnitude(FHKGameplayTags::Get().Damage);
 
 	// Capture Block Chance on Target and determine if there was a successful Block
-	// If Block, halve the incoming damage
-
 	float TargetBlockChance = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluationParamaeters, TargetBlockChance);
 	TargetBlockChance = FMath::Max<float>(TargetBlockChance, 0.f);
 
 	const bool bBlocked = FMath::RandRange(1, 100) < TargetBlockChance;
+	// If Block, halve the incoming damage
 	Damage = bBlocked ? Damage / 2.f : Damage;
 
+	// Capture Targets Armor and Sources Armor Penetration to determine if the targets armor ignores the damage from the source
+	float TargetArmor = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorDef, EvaluationParamaeters, TargetArmor);
+	TargetArmor = FMath::Max<float>(TargetArmor, 0.f);
+
+	float SourceArmorPenetration = 0.f;
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ArmorPenetrationDef, EvaluationParamaeters, SourceArmorPenetration);
+	SourceArmorPenetration = FMath::Max<float>(SourceArmorPenetration, 0.f);
+
+	// Armor Penetration ignores a percentage of the Targets Armor.
+	const float EffectiveArmor = TargetArmor *= (100 - SourceArmorPenetration * 0.25f) / 100.f;
+	// Armor ignores a percentage of Incoming Damage
+	Damage *= (100 - EffectiveArmor * 0.333f) / 100.f;
 
 	const FGameplayModifierEvaluatedData EvaluatedData(UHKAttributeSet::GetIncomingDamageAttribute(), EGameplayModOp::Additive, Damage);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
