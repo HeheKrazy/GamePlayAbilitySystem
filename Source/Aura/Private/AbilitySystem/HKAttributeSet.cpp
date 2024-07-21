@@ -167,7 +167,7 @@ void UHKAttributeSet::ShowFloatingText(const FEffectProperties Props, float Dama
 	{
 		if (ACharacterController* PC = Cast<ACharacterController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
 		{
-			PC->ShowDamageNumber(Damage, Props.TargetCharacter);
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
 		}
 	}
 }
