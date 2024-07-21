@@ -10,6 +10,7 @@
 #include "Interaction/CombatInterface.h"
 #include "Kismet/GameplayStatics.h"
 #include "Player/CharacterController.h"
+#include "AbilitySystem/HKAbilitySystemLibrary.h"
 
 UHKAttributeSet::UHKAttributeSet()
 {
@@ -150,13 +151,17 @@ void UHKAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 				TagContainer.AddTag(FHKGameplayTags::Get().Effects_HitReact);
 				Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
 			}
+		
 
-			ShowFloatingText(Props, LocalIncomingDamage);
+			const bool bBlock = UHKAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
+			const bool bCriticalHit = UHKAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
+
+			ShowFloatingText(Props, LocalIncomingDamage, bBlock, bCriticalHit);
 
 		}
 	}
 }
-void UHKAttributeSet::ShowFloatingText(const FEffectProperties Props, float Damage) const
+void UHKAttributeSet::ShowFloatingText(const FEffectProperties Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter)
 	{

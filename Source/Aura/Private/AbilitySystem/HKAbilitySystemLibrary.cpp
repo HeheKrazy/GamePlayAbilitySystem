@@ -8,6 +8,7 @@
 #include "Player/MyPlayerState.h"
 #include "Game/MyGameModeBase.h"
 #include "AbilitySystemComponent.h"
+#include "HKAbilityTypes.h"
 
 UOverlayWidgetController* UHKAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
 {
@@ -84,4 +85,38 @@ UCharacterClassInfo* UHKAbilitySystemLibrary::GetCharacterClassInfo(const UObjec
 
 	return HKGameMode->CharacterClassInfo;
 
+}
+
+bool UHKAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FHKGameplayEffectContext* HKEffectContext = static_cast<const FHKGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return HKEffectContext->IsBlockedHit();
+	}
+	return false;
+}
+
+bool UHKAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+	if (const FHKGameplayEffectContext* HKEffectContext = static_cast<const FHKGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		return HKEffectContext->IsCriticalHit();
+	}
+	return false;
+}
+
+void UHKAbilitySystemLibrary::SetIsBlockedHit(UPARAM(ref) FGameplayEffectContextHandle EffectContextHandle, bool bInIsBlockedHit)
+{
+	if (FHKGameplayEffectContext* HKEffectContext = static_cast<FHKGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		HKEffectContext->SetIsBlockedHit(bInIsBlockedHit);
+	}
+}
+
+void UHKAbilitySystemLibrary::SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle EffectContextHandle, bool bInIsCriticalHit)
+{
+	if (FHKGameplayEffectContext* HKEffectContext = static_cast<FHKGameplayEffectContext*>(EffectContextHandle.Get()))
+	{
+		HKEffectContext->SetIsCriticalHit(bInIsCriticalHit);
+	}
 }
