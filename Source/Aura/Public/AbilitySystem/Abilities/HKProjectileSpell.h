@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystem/Abilities/HKGameplayAbility.h"
+#include "AbilitySystem/Abilities/HKDamageGameplayAbility.h"
 #include "HKProjectileSpell.generated.h"
 
 
@@ -13,7 +13,7 @@ class UGameplayEffect;
  * 
  */
 UCLASS()
-class AURA_API UHKProjectileSpell : public UHKGameplayAbility
+class AURA_API UHKProjectileSpell : public UHKDamageGameplayAbility
 {
 	GENERATED_BODY()
 
@@ -25,8 +25,5 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<AHKProjectile> ProjectileClass;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
 };
