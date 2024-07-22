@@ -105,7 +105,7 @@ void FHKGameplayTags::InitializeNativeGameplayTags()
 		FName("Damage.Lightning"),
 		FString("Lightning Damage Type"));
 
-	GameplayTags.Damage_Arcance = UGameplayTagsManager::Get().AddNativeGameplayTag(
+	GameplayTags.Damage_Arcane = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Damage.Arcane"),
 		FString("Arcane Damage Type"));
 
