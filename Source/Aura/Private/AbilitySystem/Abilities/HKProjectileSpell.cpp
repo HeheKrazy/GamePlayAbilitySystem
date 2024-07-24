@@ -23,7 +23,7 @@ void UHKProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation
 	{
 		const FVector SocketLocation = CombatInterface->GetCombatSocketLocation();
 		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
-		Rotation.Pitch = 0.f;
+		
 
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(SocketLocation);
