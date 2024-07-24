@@ -10,6 +10,8 @@
 #include "BaseEnemy.generated.h"
 
 class UWidgetComponent;
+class UBehaviorTree;
+class AHKAIController;
 /**
  * 
  */
@@ -20,6 +22,7 @@ class AURA_API ABaseEnemy : public ABaseCharacter, public IOverlapInterface
 	
 public:
 	ABaseEnemy();
+	virtual void PossessedBy(AController* NewController) override;
 
 	/* OverlapInterface */
 	virtual void HighlightActor() override;
@@ -60,6 +63,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+
+	UPROPERTY()
+	TObjectPtr<AHKAIController> HKAIController;
 
 	
 private:

@@ -9,6 +9,9 @@
 #include "AbilitySystem/HKAbilitySystemLibrary.h"
 #include "UI/Widget/HKUserWidget.h"
 #include "HKGameplayTags.h"
+#include "AI/HKAIController.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 ABaseEnemy::ABaseEnemy()
@@ -23,6 +26,16 @@ ABaseEnemy::ABaseEnemy()
 
 	HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
 	HealthBar->SetupAttachment(GetRootComponent());
+}
+
+void ABaseEnemy::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!HasAuthority()) return;
+	HKAIController = Cast<AHKAIController>(NewController);
+	HKAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+	HKAIController->RunBehaviorTree(BehaviorTree);
 }
 
 
