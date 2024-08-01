@@ -40,6 +40,8 @@ void ABaseEnemy::PossessedBy(AController* NewController)
 	HKAIController = Cast<AHKAIController>(NewController);
 	HKAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
 	HKAIController->RunBehaviorTree(BehaviorTree);
+	HKAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
+	HKAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), CharacterClass != ECharacterClass::Warrior);
 }
 
 
@@ -90,6 +92,7 @@ void ABaseEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCou
 {
 	bHitReacting = NewCount > 0;
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
+	HKAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
 }
 
 void ABaseEnemy::InitAbilityActorInfo()
