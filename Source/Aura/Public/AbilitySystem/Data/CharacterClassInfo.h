@@ -19,12 +19,15 @@ enum class ECharacterClass : uint8
 };
 
 USTRUCT(BlueprintType)
-struct FCharacterClassDefualtInfo
+struct FCharacterClassDefaultInfo
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, Category = "Class Defualts")
 	TSubclassOf<UGameplayEffect> PrimaryAttributes;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Class Defualts")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 };
 
 /**
@@ -38,7 +41,7 @@ class AURA_API UCharacterClassInfo : public UDataAsset
 public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defualts")
-	TMap<ECharacterClass, FCharacterClassDefualtInfo> CharacterClassInformation;
+	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformation;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defualts")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;
@@ -52,5 +55,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults|Damage")
 	TObjectPtr<UCurveTable> DamageCalculationCoefficents;
 
-	FCharacterClassDefualtInfo GetClassDefualtInfo(ECharacterClass CharacterClass);
+	FCharacterClassDefaultInfo GetClassDefaultInfo(ECharacterClass CharacterClass);
 };

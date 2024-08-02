@@ -53,7 +53,7 @@ void ABaseEnemy::BeginPlay()
 	InitAbilityActorInfo();
 	if (HasAuthority())
 	{
-		UHKAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+		UHKAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);
 	}
 
 	if (UHKUserWidget* HKUserWidget = Cast<UHKUserWidget>(HealthBar->GetUserWidgetObject()))
