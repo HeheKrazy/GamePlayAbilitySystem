@@ -126,6 +126,16 @@ void ABaseEnemy::UnHighlightActor()
 	Weapon->SetRenderCustomDepth(false);
 }
 
+void ABaseEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+	CombatTarget = InCombatTarget;
+}
+
+AActor* ABaseEnemy::GetCombatTarget_Implementation() const
+{
+	return CombatTarget;
+}
+
 int32 ABaseEnemy::GetPlayerLevel()
 {
 	return Level;
