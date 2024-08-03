@@ -6,6 +6,7 @@
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/HKAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "HKGameplayTags.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -49,10 +50,24 @@ void ABaseCharacter::BeginPlay()
 	
 }
 
-FVector ABaseCharacter::GetCombatSocketLocation_Implementation()
+FVector ABaseCharacter::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-	check(Weapon);
-	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	const FHKGameplayTags& GameplayTags = FHKGameplayTags::Get();
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(Weapon))
+	{
+		return Weapon->GetSocketLocation(WeaponTipSocketName);
+	}
+
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand))
+	{
+		return GetMesh()->GetSocketLocation(LeftHandSocketName);
+	}
+
+	if (MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_RightHand))
+	{
+		return GetMesh()->GetSocketLocation(RightHandSocketName);
+	}
+	return FVector();
 }
 
 bool ABaseCharacter::IsDead_Implementation() const
