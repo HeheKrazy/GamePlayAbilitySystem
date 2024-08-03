@@ -16,6 +16,8 @@ class AURA_API UHKDamageGameplayAbility : public UHKGameplayAbility
 
 public:
 
+	UFUNCTION(BlueprintCallable)
+	void CauseDamage(AActor* TargetActor);
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UGameplayEffect> DamageEffectClass;

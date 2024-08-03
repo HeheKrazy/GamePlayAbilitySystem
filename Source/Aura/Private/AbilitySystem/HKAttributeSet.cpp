@@ -178,6 +178,12 @@ void UHKAttributeSet::ShowFloatingText(const FEffectProperties Props, float Dama
 		if (ACharacterController* PC = Cast<ACharacterController>(Props.SourceCharacter->Controller))
 		{
 			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
+			return;
+		}
+
+		if (ACharacterController* PC = Cast<ACharacterController>(Props.TargetCharacter->Controller))
+		{
+			PC->ShowDamageNumber(Damage, Props.TargetCharacter, bBlockedHit, bCriticalHit);
 		}
 	}
 }
