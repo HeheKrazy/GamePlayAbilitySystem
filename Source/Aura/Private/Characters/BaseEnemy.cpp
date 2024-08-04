@@ -148,5 +148,6 @@ int32 ABaseEnemy::GetPlayerLevel()
 void ABaseEnemy::Die()
 {
 	SetLifeSpan(LifeSpan);
+	if (HKAIController)	HKAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
 	Super::Die();
 }
