@@ -18,7 +18,7 @@ void UHKProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
 		
-		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), FHKGameplayTags::Get().Montage_Attack_Weapon);
+		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), FHKGameplayTags::Get().Combat_Socket_Weapon);
 		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
 		
 
