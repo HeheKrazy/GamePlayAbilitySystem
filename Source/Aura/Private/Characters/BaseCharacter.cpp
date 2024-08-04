@@ -85,6 +85,11 @@ TArray<FTaggedMontage> ABaseCharacter::GetAttackMontages_Implementation()
 	return AttackMontages;
 }
 
+UNiagaraSystem* ABaseCharacter::GetBloodEffect_Implementation()
+{
+	return BloodEffect;
+}
+
 void ABaseCharacter::InitAbilityActorInfo()
 {
 }
