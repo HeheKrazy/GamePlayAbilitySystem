@@ -10,6 +10,7 @@
 #include "Components/AudioComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/HKAbilitySystemLibrary.h"
 
 
 
@@ -60,7 +61,10 @@ void AHKProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AA
 	{
 		return;
 	}
-
+	if (!UHKAbilitySystemLibrary::IsNotFriend(DamageEffectSpecHandle.Data.Get()->GetEffectContext().GetEffectCauser(), OtherActor))
+	{
+		return;
+	}
 	if (!bHit)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
