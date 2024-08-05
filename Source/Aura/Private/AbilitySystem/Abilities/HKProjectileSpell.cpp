@@ -13,12 +13,12 @@ void UHKProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
-void UHKProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation)
+void UHKProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag)
 {
 	const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
 	if (!bIsServer) return;
 		
-		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), FHKGameplayTags::Get().Combat_Socket_Weapon);
+		const FVector SocketLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), SocketTag);
 		FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
 		
 
