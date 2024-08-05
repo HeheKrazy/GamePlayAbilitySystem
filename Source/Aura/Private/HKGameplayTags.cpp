@@ -171,6 +171,10 @@ void FHKGameplayTags::InitializeNativeGameplayTags()
 		FName("Combat.Socket.RightHand"),
 		FString("Right Hand"));
 
+	GameplayTags.Combat_Socket_Tail = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Combat.Socket.Tail"),
+		FString("Tail"));
+
 	/*
 	* Montage Tags
 	*/
@@ -190,4 +194,5 @@ void FHKGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Montage_Attack_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Montage.Attack.4"),
 		FString("Attack 4"));
+
 }

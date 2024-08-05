@@ -70,6 +70,10 @@ FVector ABaseCharacter::GetCombatSocketLocation_Implementation(const FGameplayTa
 	{
 		return GetMesh()->GetSocketLocation(RightHandSocketName);
 	}
+	if (MontageTag.MatchesTagExact(GameplayTags.Combat_Socket_Tail))
+	{
+		return GetMesh()->GetSocketLocation(TailSocketName);
+	}
 	return FVector();
 }
 
