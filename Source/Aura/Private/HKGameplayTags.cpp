@@ -155,6 +155,10 @@ void FHKGameplayTags::InitializeNativeGameplayTags()
 		FName("Abilities.Attack"),
 		FString("Tag Granted when Attacking"));
 
+	GameplayTags.Abilities_Summon = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Summon"),
+		FString("Tag Granted when Summoning"));
+
 	/*
 	* Combat Socekets
 	*/
