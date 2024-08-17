@@ -7,6 +7,7 @@
 #include "AbilitySystem/HKAbilitySystemComponent.h"
 #include "OverlayWidgetController.generated.h"
 
+struct FHKAbilityInfo;
 class UHKUserWidget;
 class UAbilityInfo;
 class UHKAbilitySystemComponent;
@@ -34,6 +35,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float,
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FHKAbilityInfo&, Info);
+
 /**
  * 
  */
@@ -59,6 +62,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
 	FMessageWidgetRowSignature MessageWidgetRowDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
+	FAbilityInfoSignature AbilityInfoDelegate;
 
 protected:
 

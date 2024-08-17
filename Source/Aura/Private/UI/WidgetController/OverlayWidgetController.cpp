@@ -4,6 +4,7 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/HKAttributeSet.h"
 #include "AbilitySystem/HKAbilitySystemComponent.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -82,5 +83,13 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UHKAbilitySystemComp
 
 	if (!HKAbilitySystemComponent->bStartupAbilitiesGiven) return;
 
+	FForEachAbility BroadcastDelegate;
+	BroadcastDelegate.BindLambda( [this, HKAbilitySystemComponent] (const FGameplayAbilitySpec& AbilitySpec)
+		{
+			FHKAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(HKAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
+			Info.InputTag = HKAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
+			AbilityInfoDelegate.Broadcast(Info);
+		});
 
+	HKAbilitySystemComponent->ForEachAbility(BroadcastDelegate);
 }
