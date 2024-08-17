@@ -2,6 +2,7 @@
 
 
 #include "AbilitySystem/Data/AttributeInfo.h"
+#include "Aura/HKLogChannels.h"
 
 FHKAttributeInfo UAttributeInfo::FindAttributeInfoForTag(const FGameplayTag& AttributeTag, bool bLogNotFound) const
 {
@@ -15,7 +16,7 @@ FHKAttributeInfo UAttributeInfo::FindAttributeInfoForTag(const FGameplayTag& Att
 
 	if (bLogNotFound)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Cant find Info for AttributeTag [%s] on AttributeInfo [%s]."), *AttributeTag.ToString(), *GetNameSafe(this));
+		UE_LOG(LogHK, Error, TEXT("Cant find Info for AttributeTag [%s] on AttributeInfo [%s]."), *AttributeTag.ToString(), *GetNameSafe(this));
 	}
 
 	return FHKAttributeInfo();
