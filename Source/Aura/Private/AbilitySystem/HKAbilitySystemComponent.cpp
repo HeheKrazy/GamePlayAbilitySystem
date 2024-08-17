@@ -22,9 +22,8 @@ void UHKAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<U
 			AbilitySpec.DynamicAbilityTags.AddTag(HKAbility->StartupInputTag);
 			GiveAbility(AbilitySpec);
 		}
-
-	
-	
+		bStartupAbilitiesGiven = true;
+		AbilitiesGivenDelegate.Broadcast(this);
 	}
 }
 
