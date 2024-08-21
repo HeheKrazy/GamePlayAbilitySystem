@@ -27,7 +27,7 @@ struct FHKLevelUpInfo
  * 
  */
 UCLASS()
-class AURA_API ULevelupInfo : public UDataAsset
+class AURA_API ULevelUpInfo : public UDataAsset
 {
 	GENERATED_BODY()
 
@@ -35,5 +35,5 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TArray<FHKLevelUpInfo> LevelUpInformation;
 
-	int32 FindLevelForXp(int32 XP);
+	int32 FindLevelForXp(int32 XP) const;
 };

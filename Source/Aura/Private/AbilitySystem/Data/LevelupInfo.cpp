@@ -3,7 +3,7 @@
 
 #include "AbilitySystem/Data/LevelupInfo.h"
 
-int32 ULevelupInfo::FindLevelForXp(int32 XP)
+int32 ULevelUpInfo::FindLevelForXp(int32 XP) const
 {
 
 	int32 Level = 1;
