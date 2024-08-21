@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include <ScalableFloat.h>
 #include "CharacterClassInfo.generated.h"
 
 
@@ -23,11 +24,14 @@ struct FCharacterClassDefaultInfo
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly, Category = "Class Defualts")
+	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
 	TSubclassOf<UGameplayEffect> PrimaryAttributes;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Class Defualts")
+	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Class Defaults")
+	FScalableFloat XPReward = FScalableFloat();
 };
 
 /**
@@ -40,13 +44,13 @@ class AURA_API UCharacterClassInfo : public UDataAsset
 
 public:
 
-	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defualts")
+	UPROPERTY(EditDefaultsOnly, Category = "Character Class Defaults")
 	TMap<ECharacterClass, FCharacterClassDefaultInfo> CharacterClassInformation;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defualts")
+	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
 	TSubclassOf<UGameplayEffect> SecondaryAttributes;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defualts")
+	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
 	TSubclassOf<UGameplayEffect> VitalAttributes;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Common Class Defaults")
