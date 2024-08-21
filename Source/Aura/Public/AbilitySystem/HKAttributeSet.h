@@ -103,6 +103,10 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UHKAttributeSet, IncomingDamage);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+	FGameplayAttributeData IncomingXP;
+	ATTRIBUTE_ACCESSORS(UHKAttributeSet, IncomingXP);
 	/* End Meta Attributes */
 
 	/* Start Secondary Attributes */

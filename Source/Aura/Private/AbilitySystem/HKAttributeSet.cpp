@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Player/CharacterController.h"
 #include "AbilitySystem/HKAbilitySystemLibrary.h"
+#include "Aura/HKLogChannels.h"
 
 UHKAttributeSet::UHKAttributeSet()
 {
@@ -169,6 +170,12 @@ void UHKAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 			ShowFloatingText(Props, LocalIncomingDamage, bBlock, bCriticalHit);
 
 		}
+	}
+	if (Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
+	{
+		const float LocalIncomingXP = GetIncomingXP();
+		SetIncomingXP(0.f);
+		UE_LOG(LogHK, Log, TEXT("Incoming XP: %f"), LocalIncomingXP);
 	}
 }
 void UHKAttributeSet::ShowFloatingText(const FEffectProperties Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
