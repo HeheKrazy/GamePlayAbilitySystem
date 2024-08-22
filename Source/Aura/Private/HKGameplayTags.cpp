@@ -66,6 +66,14 @@ void FHKGameplayTags::InitializeNativeGameplayTags()
 		FName("Attributes.Secondary.ManaRegeneration"),
 		FString("Amount of Mana regenerated every 1 second"));
 
+	/*
+		Meta Attributes
+	*/
+	GameplayTags.Attributes_Meta_IncomingXP = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.Meta.IncomingXP"),
+		FString("Incoming XP Meta Attribute"));
+
+
 	/* Input Tags */
 
 	GameplayTags.InputTag_LMB = UGameplayTagsManager::Get().AddNativeGameplayTag(

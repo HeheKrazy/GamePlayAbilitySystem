@@ -151,8 +151,7 @@ void ABaseCharacter::AddCharacterAbilities()
 	if (!HasAuthority()) return;
 
 	HKASC->AddCharacterAbilities(StartupAbilities);
-
-
+	HKASC->AddCharacterPassiveAbilities(StartupPassiveAbilities);
 }
 
 void ABaseCharacter::Dissolve()
