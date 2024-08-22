@@ -12,6 +12,7 @@
 #include "Player/CharacterController.h"
 #include "AbilitySystem/HKAbilitySystemLibrary.h"
 #include "Aura/HKLogChannels.h"
+#include "Interaction/PlayerInterface.h"
 
 UHKAttributeSet::UHKAttributeSet()
 {
@@ -177,7 +178,12 @@ void UHKAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 	{
 		const float LocalIncomingXP = GetIncomingXP();
 		SetIncomingXP(0.f);
-		UE_LOG(LogHK, Log, TEXT("Incoming XP: %f"), LocalIncomingXP);
+		//Level UP
+		if (Props.SourceCharacter->Implements<UPlayerInterface>())
+		{
+			IPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
+
+		}
 	}
 }
 void UHKAttributeSet::ShowFloatingText(const FEffectProperties Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
