@@ -140,7 +140,7 @@ AActor* ABaseEnemy::GetCombatTarget_Implementation() const
 	return CombatTarget;
 }
 
-int32 ABaseEnemy::GetPlayerLevel()
+int32 ABaseEnemy::GetPlayerLevel_Implementation()
 {
 	return Level;
 }
