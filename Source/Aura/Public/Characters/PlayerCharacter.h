@@ -5,8 +5,13 @@
 #include "CoreMinimal.h"
 #include "Characters/BaseCharacter.h"
 #include "Interaction/PlayerInterface.h"
+
 #include "PlayerCharacter.generated.h"
 
+
+class UNiagaraComponent;
+class UCameraComponent;
+class USpringArmComponent;
 /**
  * 
  */
@@ -41,6 +46,18 @@ public:
 
 	/* End Player Interface */
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly )
+	TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;
+
 private:
 	void InitAbilityActorInfo() override;
+
+	UFUNCTION(NetMulticast, Reliable)
+	void MulticastLevelUpParticles() const;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UCameraComponent> TopDownCameraComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USpringArmComponent> CameraBoom;
 };

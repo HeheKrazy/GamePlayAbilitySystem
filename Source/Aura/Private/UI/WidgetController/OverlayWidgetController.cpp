@@ -22,7 +22,13 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	AMyPlayerState* HKPlayerState = CastChecked<AMyPlayerState>(PlayerState);
 
 	HKPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXpChanged);
-
+	HKPlayerState->OnLevelChangedDelegate.AddLambda(
+		[this](int32 NewLevel)
+		{
+			OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
+		}
+	);
+	 
 	const UHKAttributeSet* HKAttributeSet = CastChecked<UHKAttributeSet>(AttributeSet);
 
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(HKAttributeSet->GetHealthAttribute()).AddLambda(
