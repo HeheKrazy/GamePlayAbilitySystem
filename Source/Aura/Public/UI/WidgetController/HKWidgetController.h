@@ -6,6 +6,8 @@
 #include "UObject/NoExportTypes.h"
 #include "HKWidgetController.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
+
 class UAttributeSet;
 class UAbilitySystemComponent;
 

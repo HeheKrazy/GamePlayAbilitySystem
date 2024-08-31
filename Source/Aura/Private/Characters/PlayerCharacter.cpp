@@ -120,15 +120,17 @@ void APlayerCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
 
 void APlayerCharacter::AddToAttributePoints_Implementation(int32 InAttributePoints)
 {
-	const AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
+	AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
 	check(MyPlayerState);
+
+	MyPlayerState->AddToAttributePoints(InAttributePoints);
 }
 
 void APlayerCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
 {
-	const AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
+	AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
 	check(MyPlayerState);
-
+	MyPlayerState->AddToSpellPoints(InSpellPoints);
 }
 
 void APlayerCharacter::AddToXP_Implementation(int32 InXP)

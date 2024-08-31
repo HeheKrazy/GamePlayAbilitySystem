@@ -4,6 +4,7 @@
 #include "UI/WidgetController/AttributeMenuWidgetController.h"
 #include "AbilitySystem/HKAttributeSet.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
+#include <Player/MyPlayerState.h>
 
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
@@ -12,16 +13,23 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 
 	check(AttributeInfo)
 
-	for (auto& Pair : AS->TagsToAttributes)
-	{
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
-			[this, Pair](const FOnAttributeChangeData& Data)
-			{
-				BroadcastAttributeInfo(Pair.Key, Pair.Value());
-			}
-		);
-	}
-	
+		for (auto& Pair : AS->TagsToAttributes)
+		{
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
+				[this, Pair](const FOnAttributeChangeData& Data)
+				{
+					BroadcastAttributeInfo(Pair.Key, Pair.Value());
+				}
+			);
+		}
+
+	AMyPlayerState* HKPlayerState = CastChecked<AMyPlayerState>(PlayerState);
+	HKPlayerState->OnAttributePointChangedDelegate.AddLambda(
+		[this](int32 Points)
+		{
+			AttributePointChangedDelegate.Broadcast(Points);
+		}
+	);
 }
 
 void UAttributeMenuWidgetController::BroadcastInitialValues()
@@ -34,6 +42,10 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 	{
 		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
+
+	AMyPlayerState* HKPlayerState = CastChecked<AMyPlayerState>(PlayerState);
+	AttributePointChangedDelegate.Broadcast(HKPlayerState->GetAttributePoints());
+
 }
 
 void UAttributeMenuWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const
