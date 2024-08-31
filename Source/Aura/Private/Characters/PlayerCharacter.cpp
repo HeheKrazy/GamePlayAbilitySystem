@@ -7,6 +7,7 @@
 #include "Player/MyPlayerState.h"
 #include "AbilitySystemComponent.h"
 #include "UI/HUD/HKHUD.h"
+#include "AbilitySystem/Data/LevelupInfo.h"
 
 
 APlayerCharacter::APlayerCharacter()
@@ -47,6 +48,57 @@ int32 APlayerCharacter::GetPlayerLevel_Implementation()
 
 void APlayerCharacter::LevelUp_Implementation()
 {
+}
+
+int32 APlayerCharacter::GetXP_Implementation() const
+{
+	const AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
+	check(MyPlayerState);
+	return MyPlayerState->GetXP();
+}
+
+int32 APlayerCharacter::FindLevelForXP_Implementation(int32 InXP) const
+{
+	const AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
+	check(MyPlayerState);
+	return MyPlayerState->LevelUpInfo->FindLevelForXp(InXP);
+}
+
+int32 APlayerCharacter::GetAttributePointsReward_Implementation(int32 Level) const
+{
+	const AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
+	check(MyPlayerState);
+
+	return MyPlayerState->LevelUpInfo->LevelUpInformation[Level].AttributePointAward;
+}
+
+int32 APlayerCharacter::GetSpellPointsReward_Implementation(int32 Level) const
+{
+	const AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
+	check(MyPlayerState);
+
+	return MyPlayerState->LevelUpInfo->LevelUpInformation[Level].SpellPointAward;
+}
+
+void APlayerCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
+{
+	AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
+	check(MyPlayerState);
+
+	MyPlayerState->AddToLevel(InPlayerLevel);
+}
+
+void APlayerCharacter::AddToAttributePoints_Implementation(int32 InAttributePoints)
+{
+	const AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
+	check(MyPlayerState);
+}
+
+void APlayerCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
+{
+	const AMyPlayerState* MyPlayerState = GetPlayerState<AMyPlayerState>();
+	check(MyPlayerState);
+
 }
 
 void APlayerCharacter::AddToXP_Implementation(int32 InXP)
