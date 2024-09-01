@@ -5,6 +5,7 @@
 #include "AbilitySystem/HKAttributeSet.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
 #include <Player/MyPlayerState.h>
+#include "AbilitySystem/HKAbilitySystemComponent.h"
 
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
@@ -45,6 +46,13 @@ void UAttributeMenuWidgetController::BroadcastInitialValues()
 
 	AMyPlayerState* HKPlayerState = CastChecked<AMyPlayerState>(PlayerState);
 	AttributePointChangedDelegate.Broadcast(HKPlayerState->GetAttributePoints());
+
+}
+
+void UAttributeMenuWidgetController::UpgradeAttribute(const FGameplayTag& AttributeTag)
+{
+	UHKAbilitySystemComponent* HKASC = CastChecked<UHKAbilitySystemComponent>(AbilitySystemComponent);
+	HKASC->UpgradeAttribute(AttributeTag);
 
 }
 

@@ -7,7 +7,7 @@
 #include "AbilitySystem/Data/AttributeInfo.h"
 #include "AttributeMenuWidgetController.generated.h"
 
-
+struct FGameplayTag;
 class UAttributeInfo;
 struct FGameplayAttribute;
 struct FHKAttributeInfo;
@@ -24,6 +24,9 @@ class AURA_API UAttributeMenuWidgetController : public UHKWidgetController
 public:
 	virtual void BindCallbacksToDependencies() override;
 	virtual void BroadcastInitialValues() override;
+
+	UFUNCTION(BlueprintCallable)
+	void UpgradeAttribute(const FGameplayTag& AttributeTag);
 	
 	UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
 	FAttributeInfoSignature AttributeInfoDelegate;
