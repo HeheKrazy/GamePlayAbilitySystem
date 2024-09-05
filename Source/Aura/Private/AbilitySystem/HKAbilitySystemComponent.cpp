@@ -21,6 +21,7 @@ void UHKAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<U
 		if( const UHKGameplayAbility* HKAbility = Cast<UHKGameplayAbility>(AbilitySpec.Ability))
 		{
 			AbilitySpec.DynamicAbilityTags.AddTag(HKAbility->StartupInputTag);
+			AbilitySpec.DynamicAbilityTags.AddTag(FHKGameplayTags::Get().Abilities_Status_Equipped);
 			GiveAbility(AbilitySpec);
 		}
 		bStartupAbilitiesGiven = true;
@@ -104,6 +105,16 @@ FGameplayTag UHKAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbili
 			return Tag;
 		}
 	}
+	return FGameplayTag();
+}
+
+FGameplayTag UHKAbilitySystemComponent::GetStatusFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+	for (FGameplayTag StatusTag : AbilitySpec.DynamicAbilityTags)
+		if (StatusTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Abilities.Status"))))
+		{
+			return StatusTag;
+		}
 	return FGameplayTag();
 }
 
