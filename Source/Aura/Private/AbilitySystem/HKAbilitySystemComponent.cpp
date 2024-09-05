@@ -24,7 +24,7 @@ void UHKAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf<U
 			GiveAbility(AbilitySpec);
 		}
 		bStartupAbilitiesGiven = true;
-		AbilitiesGivenDelegate.Broadcast(this);
+		AbilitiesGivenDelegate.Broadcast();
 	}
 }
 
@@ -34,8 +34,6 @@ void UHKAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSubcl
 	{
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
 		GiveAbilityAndActivateOnce(AbilitySpec);
-		bStartupAbilitiesGiven = true;
-		AbilitiesGivenDelegate.Broadcast(this);
 	}
 }
 
@@ -141,7 +139,7 @@ void UHKAbilitySystemComponent::OnRep_ActivateAbilities()
 	if (!bStartupAbilitiesGiven)
 	{
 		bStartupAbilitiesGiven = true;
-		AbilitiesGivenDelegate.Broadcast(this);
+		AbilitiesGivenDelegate.Broadcast();
 
 	}
 }

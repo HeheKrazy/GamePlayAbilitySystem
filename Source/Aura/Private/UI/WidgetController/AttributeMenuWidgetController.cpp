@@ -10,11 +10,9 @@
 
 void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 {
-	UHKAttributeSet* AS = CastChecked<UHKAttributeSet>(AttributeSet);
-
 	check(AttributeInfo)
 
-		for (auto& Pair : AS->TagsToAttributes)
+		for (auto& Pair : GetHKAS()->TagsToAttributes)
 		{
 			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
 				[this, Pair](const FOnAttributeChangeData& Data)
@@ -24,8 +22,7 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 			);
 		}
 
-	AMyPlayerState* HKPlayerState = CastChecked<AMyPlayerState>(PlayerState);
-	HKPlayerState->OnAttributePointChangedDelegate.AddLambda(
+		GetHKPS()->OnAttributePointChangedDelegate.AddLambda(
 		[this](int32 Points)
 		{
 			AttributePointChangedDelegate.Broadcast(Points);
@@ -35,24 +32,24 @@ void UAttributeMenuWidgetController::BindCallbacksToDependencies()
 
 void UAttributeMenuWidgetController::BroadcastInitialValues()
 {
-	UHKAttributeSet* AS = CastChecked<UHKAttributeSet>(AttributeSet);
+	//UHKAttributeSet* AS = CastChecked<UHKAttributeSet>(AttributeSet);
 
 	check(AttributeInfo);
 
-	for (auto& Pair : AS->TagsToAttributes)
+	for (auto& Pair : GetHKAS()->TagsToAttributes)
 	{
 		BroadcastAttributeInfo(Pair.Key, Pair.Value());
 	}
 
-	AMyPlayerState* HKPlayerState = CastChecked<AMyPlayerState>(PlayerState);
-	AttributePointChangedDelegate.Broadcast(HKPlayerState->GetAttributePoints());
+	//AMyPlayerState* HKPlayerState = CastChecked<AMyPlayerState>(PlayerState);
+	AttributePointChangedDelegate.Broadcast(GetHKPS()->GetAttributePoints());
 
 }
 
 void UAttributeMenuWidgetController::UpgradeAttribute(const FGameplayTag& AttributeTag)
 {
-	UHKAbilitySystemComponent* HKASC = CastChecked<UHKAbilitySystemComponent>(AbilitySystemComponent);
-	HKASC->UpgradeAttribute(AttributeTag);
+	//UHKAbilitySystemComponent* HKASC = CastChecked<UHKAbilitySystemComponent>(AbilitySystemComponent);
+	GetHKASC()->UpgradeAttribute(AttributeTag);
 
 }
 

@@ -4,48 +4,42 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/HKAttributeSet.h"
 #include "AbilitySystem/HKAbilitySystemComponent.h"
-#include "AbilitySystem/Data/AbilityInfo.h"
 #include "Player/MyPlayerState.h"
 #include "AbilitySystem/Data/LevelupInfo.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
-	const UHKAttributeSet* HKAttributeSet = CastChecked<UHKAttributeSet>(AttributeSet);
-	OnHealthChanged.Broadcast(HKAttributeSet->GetHealth());
-	OnMaxHealthChanged.Broadcast(HKAttributeSet->GetMaxHealth());
-	OnManaChanged.Broadcast(HKAttributeSet->GetMana());
-	OnMaxManaChanged.Broadcast(HKAttributeSet->GetMaxMana());
+	OnHealthChanged.Broadcast(GetHKAS()->GetHealth());
+	OnMaxHealthChanged.Broadcast(GetHKAS()->GetMaxHealth());
+	OnManaChanged.Broadcast(GetHKAS()->GetMana());
+	OnMaxManaChanged.Broadcast(GetHKAS()->GetMaxMana());
 }
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {
-	AMyPlayerState* HKPlayerState = CastChecked<AMyPlayerState>(PlayerState);
-
-	HKPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXpChanged);
-	HKPlayerState->OnLevelChangedDelegate.AddLambda(
+	GetHKPS()->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXpChanged);
+	GetHKPS()->OnLevelChangedDelegate.AddLambda(
 		[this](int32 NewLevel)
 		{
 			OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
 		}
 	);
-	 
-	const UHKAttributeSet* HKAttributeSet = CastChecked<UHKAttributeSet>(AttributeSet);
 
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(HKAttributeSet->GetHealthAttribute()).AddLambda(
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetHKAS()->GetHealthAttribute()).AddLambda(
 		[this](const FOnAttributeChangeData& Data)
 		{
 			OnHealthChanged.Broadcast(Data.NewValue);
 		}
 	);
 
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(HKAttributeSet->GetMaxHealthAttribute()).AddLambda(
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetHKAS()->GetMaxHealthAttribute()).AddLambda(
 		[this](const FOnAttributeChangeData& Data)
 		{
 			OnMaxHealthChanged.Broadcast(Data.NewValue);
 		}
 	);
 
-	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(HKAttributeSet->GetManaAttribute()).AddLambda(
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetHKAS()->GetManaAttribute()).AddLambda(
 		[this](const FOnAttributeChangeData& Data)
 		{
 			OnManaChanged.Broadcast(Data.NewValue);
@@ -59,19 +53,19 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 		}
 	);
 
-	if (UHKAbilitySystemComponent* HKASC = Cast<UHKAbilitySystemComponent>(AbilitySystemComponent))
+	if (GetHKASC())
 	{
-		if (HKASC->bStartupAbilitiesGiven)
+		if (GetHKASC()->bStartupAbilitiesGiven)
 		{
-			OnInitializeStartupAbilities(HKASC);
+			BroadcastAbilityInfo();
 		}
 		else
 		{
-			HKASC->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
+			GetHKASC()->AbilitiesGivenDelegate.AddUObject(this, &UOverlayWidgetController::BroadcastAbilityInfo);
 		}
 
 
-		HKASC->EffectAssetTags.AddLambda(
+		GetHKASC()->EffectAssetTags.AddLambda(
 			[this](const FGameplayTagContainer& AssetTags)
 			{
 				for (const FGameplayTag& Tag : AssetTags)
@@ -89,27 +83,9 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 	}
 }
 
-void UOverlayWidgetController::OnInitializeStartupAbilities(UHKAbilitySystemComponent* HKAbilitySystemComponent)
+void UOverlayWidgetController::OnXpChanged(int32 NewXP)
 {
-	//TODO get info about all given abilities, look up thier ability info and broadcast to widgets
-
-	if (!HKAbilitySystemComponent->bStartupAbilitiesGiven) return;
-
-	FForEachAbility BroadcastDelegate;
-	BroadcastDelegate.BindLambda( [this, HKAbilitySystemComponent] (const FGameplayAbilitySpec& AbilitySpec)
-		{
-			FHKAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(HKAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
-			Info.InputTag = HKAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
-			AbilityInfoDelegate.Broadcast(Info);
-		});
-
-	HKAbilitySystemComponent->ForEachAbility(BroadcastDelegate);
-}
-
-void UOverlayWidgetController::OnXpChanged(int32 NewXP) const
-{
-	const AMyPlayerState* HKPlayerState = CastChecked<AMyPlayerState>(PlayerState);
-	const ULevelUpInfo* LevelUpInfo = HKPlayerState->LevelUpInfo;
+	const ULevelUpInfo* LevelUpInfo = GetHKPS()->LevelUpInfo;
 	checkf(LevelUpInfo, TEXT("Unable to find LevelUpInfo, Please set on PlayerState"));
 
 	const int32 Level = LevelUpInfo->FindLevelForXp(NewXP);
