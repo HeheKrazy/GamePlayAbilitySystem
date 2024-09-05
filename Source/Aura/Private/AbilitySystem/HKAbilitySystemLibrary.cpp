@@ -4,43 +4,67 @@
 #include "AbilitySystem/HKAbilitySystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/HUD/HKHUD.h"
-#include "UI/WidgetController/HKWidgetController.h"
 #include "Player/MyPlayerState.h"
 #include "Game/MyGameModeBase.h"
 #include "AbilitySystemComponent.h"
 #include "HKAbilityTypes.h"
 #include "Interaction/CombatInterface.h"
+#include "UI/WidgetController/HKWidgetController.h"
 
-UOverlayWidgetController* UHKAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
+bool UHKAbilitySystemLibrary::MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AHKHUD*& OutHKHud)
 {
+	
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
-	{
-		if (AHKHUD* HKHUD = Cast<AHKHUD>(PC->GetHUD()))
+	{	
+
+		OutHKHud = Cast<AHKHUD>(PC->GetHUD());
+		if (OutHKHud)
 		{
 			AMyPlayerState* PS = PC->GetPlayerState<AMyPlayerState>();
 			UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
 			UAttributeSet* AS = PS->GetAttributeSet();
-			const FWidgetControllerParams WidgetControllerParams(PC, PS, ASC, AS);
-
-			return HKHUD->GetOverlayWidgetController(WidgetControllerParams);
+			OutWCParams.PlayerController = PC;
+			OutWCParams.PlayerState = PS;
+			OutWCParams.AbilitySystemComponent = ASC;
+			OutWCParams.AttributeSet = AS;
+			return true;
 		}
+	}
+	return false;
+}
+
+UOverlayWidgetController* UHKAbilitySystemLibrary::GetOverlayWidgetController(const UObject* WorldContextObject)
+{
+	FWidgetControllerParams WCParams;
+	AHKHUD* HKHUD = nullptr;
+	
+	if (MakeWidgetControllerParams(WorldContextObject, WCParams, HKHUD))
+	{
+		return HKHUD->GetOverlayWidgetController(WCParams);
 	}
 	return nullptr;
 }
 
 UAttributeMenuWidgetController* UHKAbilitySystemLibrary::GetAttributeMenuWidgetController(const UObject* WorldContextObject)
 {
-	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
-	{
-		if (AHKHUD* HKHUD = Cast<AHKHUD>(PC->GetHUD()))
-		{
-			AMyPlayerState* PS = PC->GetPlayerState<AMyPlayerState>();
-			UAbilitySystemComponent* ASC = PS->GetAbilitySystemComponent();
-			UAttributeSet* AS = PS->GetAttributeSet();
-			const FWidgetControllerParams WidgetControllerParams(PC, PS, ASC, AS);
+	FWidgetControllerParams WCParams;
+	AHKHUD* HKHUD = nullptr;
 
-			return HKHUD->GetAttributeMenuWidgetController(WidgetControllerParams);
-		}
+	if (MakeWidgetControllerParams(WorldContextObject, WCParams, HKHUD))
+	{
+		return HKHUD->GetAttributeMenuWidgetController(WCParams);
+	}
+	return nullptr;
+}
+
+USpellMenuWidgetController* UHKAbilitySystemLibrary::GetSpellMenuWidgetController(const UObject* WorldContextObject)
+{
+	FWidgetControllerParams WCParams;
+	AHKHUD* HKHUD = nullptr;
+
+	if (MakeWidgetControllerParams(WorldContextObject, WCParams, HKHUD))
+	{
+		return HKHUD->GetSpellMenuWidgetController(WCParams);
 	}
 	return nullptr;
 }

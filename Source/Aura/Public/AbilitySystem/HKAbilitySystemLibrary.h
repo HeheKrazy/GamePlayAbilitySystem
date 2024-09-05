@@ -8,7 +8,10 @@
 #include "HKAbilitySystemLibrary.generated.h"
 
 class UOverlayWidgetController;
+class UAttributeMenuWidgetController;
+class USpellMenuWidgetController;
 class UAbilitySystemComponent;
+struct FWidgetControllerParams;
 
 /**
  * 
@@ -20,11 +23,17 @@ class AURA_API UHKAbilitySystemLibrary : public UBlueprintFunctionLibrary
 
 public:
 
-	UFUNCTION(BlueprintPure, Category = "HKAbilitySystemLibrary|WidgetController")
+	UFUNCTION(BlueprintPure, Category = "HKAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
+	static bool MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, AHKHUD*& OutHKHud);
+
+	UFUNCTION(BlueprintPure, Category = "HKAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
 
-	UFUNCTION(BlueprintPure, Category = "HKAbilitySystemLibrary|WidgetController")
+	UFUNCTION(BlueprintPure, Category = "HKAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
 	static UAttributeMenuWidgetController* GetAttributeMenuWidgetController(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintPure, Category = "HKAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
+	static USpellMenuWidgetController* GetSpellMenuWidgetController(const UObject* WorldContextObject);
 
 
 	UFUNCTION(BlueprintCallable, Category = "HKAbilitySystemLibrary|CharacterClassDefaults")
