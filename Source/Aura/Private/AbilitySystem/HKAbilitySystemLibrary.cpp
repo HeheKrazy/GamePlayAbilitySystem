@@ -125,11 +125,19 @@ int32 UHKAbilitySystemLibrary::GetXPRewardForClassAndLevel(const UObject* WorldC
 
 UCharacterClassInfo* UHKAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
 {
-	AMyGameModeBase* HKGameMode = Cast<AMyGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	const AMyGameModeBase* HKGameMode = Cast<AMyGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
 	if (HKGameMode == nullptr) return nullptr;
 
 	return HKGameMode->CharacterClassInfo;
 
+}
+
+UAbilityInfo* UHKAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldContextObject)
+{
+	const AMyGameModeBase* HKGameMode = Cast<AMyGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (HKGameMode == nullptr) return nullptr;
+
+	return HKGameMode->AbilityInfo;
 }
 
 bool UHKAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)

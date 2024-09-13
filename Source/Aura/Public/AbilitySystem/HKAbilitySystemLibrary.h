@@ -12,6 +12,7 @@ class UAttributeMenuWidgetController;
 class USpellMenuWidgetController;
 class UAbilitySystemComponent;
 struct FWidgetControllerParams;
+class UAbilityInfo;
 
 /**
  * 
@@ -44,6 +45,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "HKAbilitySystemLibrary|CharacterClassDefaults")
 	static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
+
+	UFUNCTION(BlueprintCallable, Category = "HKAbilitySystemLibrary|CharacterClassDefaults")
+	static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintPure, Category = "HKAbilitySystemLibrary|GameplayEffects")
 	static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle);
