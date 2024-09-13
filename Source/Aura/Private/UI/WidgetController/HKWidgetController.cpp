@@ -34,6 +34,7 @@ void UHKWidgetController::BroadcastAbilityInfo()
 		{
 			FHKAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(HKAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
 			Info.InputTag = HKAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
+			Info.StatusTag = HKAbilitySystemComponent->GetStatusFromSpec(AbilitySpec);
 			AbilityInfoDelegate.Broadcast(Info);
 		});
 
