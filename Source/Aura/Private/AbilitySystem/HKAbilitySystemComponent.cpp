@@ -123,7 +123,7 @@ FGameplayTag UHKAbilitySystemComponent::GetStatusFromSpec(const FGameplayAbility
 FGameplayAbilitySpec* UHKAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
 {
 	FScopedAbilityListLock ActiveScopeLock(*this);
-	for (FGameplayAbilitySpec AbilitySpec : GetActivatableAbilities())
+	for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
 		for (FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
 		{
